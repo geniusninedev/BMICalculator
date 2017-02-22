@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 alertLayout = inflater.inflate(R.layout.dialog, null);
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                alertDialogBuilder.setTitle("Gender:");
+                alertDialogBuilder.setTitle("Gender :");
 
                 radioGroupSex = (RadioGroup)  alertLayout.findViewById(R.id.radioSex);
                 radioGroupSex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 alertLayout = inflater.inflate(R.layout.dialogheight, null);
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                alertDialogBuilder.setTitle("Height In:");
+                alertDialogBuilder.setTitle("Height In :");
                 radioGroupHeight = (RadioGroup) alertLayout.findViewById(R.id.radioSex);
                 radioGroupHeight.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
