@@ -1,0 +1,45 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+    <item
+        android:id="@+id/action_remove_ads"
+        android:orderInCategory="100"
+        android:title="Remove Ads"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/action_moreapps"
+        android:orderInCategory="100"
+        android:title="More Apps"
+        app:showAsAction="never" />
+    <!--<item
+        android:id="@+id/action_import"
+        android:orderInCategory="100"
+        android:title="@string/action_import"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_logout"
+        android:orderInCategory="100"
+        android:title="@string/action_logout"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />-->
+   <!-- <item
+        android:id="@+id/action_profile"
+        android:icon="@drawable/ic_account_circle_white_24dp"
+        android:title="Profile"
+        android:orderInCategory="5"
+        app:showAsAction="ifRoom|collapseActionView" />-->
+    <!--<item
+        android:id="@+id/action_chart"
+        android:icon="@drawable/ic_piachart"
+        android:title="Chart"
+        android:orderInCategory="5"
+        app:showAsAction="ifRoom|collapseActionView" />-->
+</menu>
+
+
