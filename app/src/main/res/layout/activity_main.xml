@@ -6,9 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
 
-    android:layout_gravity="center"
-
     >
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -16,11 +15,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+               >
 
                 <TextView
                     android:id="@+id/textAge"
@@ -153,7 +158,46 @@
                     android:textColor="@android:color/holo_green_dark"
                     android:layout_weight="2" >
                 </EditText>
-
+                <EditText
+                    android:id="@+id/edittextWeightInLb"
+                    android:layout_width="96dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ems="10"
+                    android:fadingEdgeLength="10dp"
+                    android:inputType="numberDecimal"
+                    android:textAlignment="center"
+                    android:visibility="gone"
+                    android:hint="lb"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:layout_weight="2" />
+                <EditText
+                    android:id="@+id/edittextWeightInST"
+                    android:layout_width="96dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ems="10"
+                    android:fadingEdgeLength="10dp"
+                    android:inputType="numberDecimal"
+                    android:textAlignment="center"
+                    android:visibility="gone"
+                    android:hint="st"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:layout_weight="1" />
+                <EditText
+                    android:id="@+id/edittextWeightInSTLb"
+                    android:layout_width="96dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ems="10"
+                    android:fadingEdgeLength="10dp"
+                    android:inputType="numberDecimal"
+                    android:textAlignment="center"
+                    android:visibility="gone"
+                    android:hint="lb"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:layout_weight="1" >
+                </EditText>
                 <ImageView
                     android:src="@drawable/btn_kg"
                     android:layout_width="50dp"
@@ -162,40 +206,7 @@
                     android:id="@+id/ButtonChooserWeight"
                     android:layout_weight="7" />
             </LinearLayout>
-
-           <!-- <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/textWaist"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text=" Waist Circumference "
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/holo_green_dark"
-                    android:typeface="serif"
-                    android:layout_weight="0.39" />
-
-                <EditText
-                    android:id="@+id/edittextWaist"
-                    android:layout_width="96dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:ems="10"
-                    android:hint="waist circumference"
-                    android:fadingEdgeLength="10dp"
-                    android:inputType="numberDecimal"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/holo_green_dark"
-                    android:layout_weight="0.74" >
-                    <requestFocus />
-                </EditText>
-
-            </LinearLayout>-->
-
+            </LinearLayout>
             <!-- Button for calculating the formula, when pressed, with calculate written over it -->
             <Button
                 android:id="@+id/buttoncalculate"
@@ -207,7 +218,10 @@
                 android:longClickable="true"
                 android:text="Calculate"
                 android:visibility="visible" />
-
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:background="#000000" />
             <!-- Text view for showing result -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -358,6 +372,10 @@
                     android:layout_weight="4" />
 
             </LinearLayout>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:background="#000000" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -380,14 +398,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 >
                 <TextView
-                    android:text="  Classification                   Woman                      Men                  "
+                    android:text="                Classification                   Woman                      Men                  "
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewBMIClassification"
-
+                    android:gravity="center"
                     android:textStyle="bold"
                     android:layout_weight="1"
                     android:textSize="14dp"
@@ -401,12 +420,12 @@
                 android:orientation="horizontal"
                 android:layout_gravity="center">
                 <TextView
-                    android:text="  Severly Underweight                                          16 - 17  "
-                    android:layout_width="wrap_content"
+                    android:text="   Severly Underweight                                           16 - 17  "
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewseverly"
                     android:layout_weight="1"
-
+                    android:gravity="center"
                     android:textColor="@android:color/holo_orange_dark" />
             </LinearLayout>
 
@@ -417,11 +436,12 @@
                 android:orientation="horizontal"
                 android:layout_gravity="center">
                 <TextView
-                    android:text="  Underweight                     0 - 17.5                      17 - 18.5  "
-                    android:layout_width="wrap_content"
+                    android:text="       Underweight                    0 - 17.5                       17 - 18.5  "
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewunderweight"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:textColor="@android:color/holo_orange_light" />
             </LinearLayout>
 
@@ -431,11 +451,12 @@
                 android:orientation="horizontal"
                 android:layout_gravity="center">
                 <TextView
-                    android:text="  Normal                              18.5 - 24.9                 18.5 - 25  "
-                    android:layout_width="wrap_content"
+                    android:text="       Normal                             18.5 - 24.9                 18.5 - 25  "
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewnormal"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:textColor="@android:color/holo_green_dark"
                     />
             </LinearLayout>
@@ -446,11 +467,12 @@
                 android:orientation="horizontal"
                 android:layout_gravity="center">
                 <TextView
-                    android:text="  Overweight                       30 - 40                        25 - 30  "
-                    android:layout_width="wrap_content"
+                    android:text="    Overweight                       30 - 40                        25 - 30  "
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewoverweight"
                     android:textColor="@android:color/holo_orange_light"
+                    android:gravity="center"
                     android:layout_weight="1" />
             </LinearLayout>
 
@@ -460,10 +482,11 @@
                 android:orientation="horizontal"
                 android:layout_gravity="center">
                 <TextView
-                    android:text="  Obese Class I                                                       30 - 35  "
-                    android:layout_width="wrap_content"
+                    android:text="    Obese Class I                                                       30 - 35  "
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewClass1"
+                    android:gravity="center"
                     android:textColor="@android:color/holo_orange_dark"
                     android:layout_weight="1" />
             </LinearLayout>
@@ -474,10 +497,11 @@
                 android:orientation="horizontal"
                 android:layout_gravity="center">
                 <TextView
-                    android:text="  Obese Class II                                                      35 - 40  "
-                    android:layout_width="wrap_content"
+                    android:text="    Obese Class II                                                      35 - 40  "
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewClass2"
+                    android:gravity="center"
                     android:textColor="@android:color/holo_red_dark"
                     android:layout_weight="1" />
             </LinearLayout>
@@ -488,14 +512,18 @@
                 android:orientation="horizontal"
                 android:layout_gravity="center">
                 <TextView
-                    android:text="  Obese Class III                 >40                               >40  "
-                    android:layout_width="wrap_content"
+                    android:text="Obese Class III                 >40                               >40  "
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewClass3"
+                    android:gravity="center"
                     android:textColor="@android:color/holo_red_dark"
                     android:layout_weight="1" />
             </LinearLayout>
-
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:background="#000000" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -507,24 +535,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewFATClassification"
-                    android:gravity="center"
+                    android:layout_gravity="center"
                     android:textStyle="bold"
                     android:layout_weight="1"
                     android:textSize="16dp"
                     android:textColor="@color/colorPrimary" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp"
+                android:layout_gravity="center"
                 >
                 <TextView
-                    android:text="  Classification                  Woman                      Men                  "
+                    android:text="Classification                Woman                      Men                  "
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewfATClassification"
-
+                    android:gravity="center"
                     android:textStyle="bold"
                     android:layout_weight="1"
                     android:textSize="14dp"
@@ -539,12 +569,14 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
                     >
                     <TextView
-                        android:text="     Athletes                         14-20%                      6-13%                  "
+                        android:text="    Athletes                            14-20%                      6-13%                  "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textViewAthletes"
+                        android:gravity="center"
                         android:layout_weight="1"
                         android:textSize="14dp" />
                 </LinearLayout>
@@ -552,12 +584,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_gravity="center"
                     android:layout_marginTop="10dp"
                     >
                     <TextView
-                        android:text="     Fitness                           21-24%                      14-17%                  "
+                        android:text="      Fitness                              21-24%                      14-17%                  "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:id="@+id/textViewFitness"
                         android:layout_weight="1"
                         android:textSize="14dp" />
@@ -566,14 +600,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_gravity="center"
                     android:layout_marginTop="10dp"
                     >
                     <TextView
-                        android:text="     Acceptable                    25-31%                      18-25%                  "
+                        android:text="      Acceptable                       25-31%                      18-25%                  "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textViewAcceptable"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:textSize="14dp" />
                 </LinearLayout>
                 <LinearLayout
@@ -581,16 +617,18 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
                     >
                     <TextView
-                        android:text="     Obese                             32% +                         25%                  "
+                        android:text=" Obese                                 32%                            25%                  "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textViewObese"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:textSize="14dp" />
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+            </LinearLayout>
     </ScrollView>
 </LinearLayout>

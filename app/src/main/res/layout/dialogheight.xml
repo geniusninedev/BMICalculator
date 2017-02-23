@@ -5,25 +5,27 @@
     android:layout_height="match_parent"
     >
     <RadioGroup
-        android:id="@+id/radioSex"
+        android:id="@+id/radioHeight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_weight="2">
 
         <RadioButton
-            android:id="@+id/radioMale"
+            android:id="@+id/radioCM"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="CM" />
+            android:text="CM"
+            android:textStyle="normal|bold" />
 
         <RadioButton
-            android:id="@+id/radioFemale"
+            android:id="@+id/radioFTIN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="FT+IN" />
+            android:text="FT+IN"
+            android:textStyle="normal|bold" />
 
     </RadioGroup>
 

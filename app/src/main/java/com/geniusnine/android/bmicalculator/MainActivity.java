@@ -1,13 +1,9 @@
 package com.geniusnine.android.bmicalculator;
 
-
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,19 +16,22 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Declaration of UI variables
     TextView textviewbmi, textviewbmr, textviewFAT, textviewbmiinterpret, textviewFATinterpret, textViewIdealWeight,TextViewIdealWeightfake,TextViewbmrfake;
-    EditText edittextAge, edittextheight, edittextfeet, edittextInch, edittextweight, edittextWaist;
-     Button butttonCalculate;
+    EditText edittextAge, edittextheight, edittextfeet, edittextInch, edittextweight, edittextWaist,edittextWeightInLb,edittextWeightInST,edittextWeightInSTLb;
+    Button butttonCalculate;
     ImageView buttonAge, buttonheight, buttonweight;
-    private RadioGroup radioGroupSex,radioGroupHeight;
-    private RadioButton radioButtonSex,radioButtonHeight;
-    String sexValue, heightValue, strHeigthfeet, strHeightInch, strAge, strWeight, strHeight, strWaist;
-    View alertLayout;
+    private RadioGroup radioGroupSex,radioGroupHeight,radioGroupWeight;
+    private RadioButton radioButtonSex,radioButtonHeight,radioButtonWeight;
+
+    //Declartion  of varibale which is needed to store values getted from edittext
+    String sexValue,heightValue,strHeigthfeet,strHeightInch,strAge,strWeight,strHeight,strWaist,WeightValue;
+
+    //this two
     static final int MALEOFFSET = 5;  // Miffin St-Jeor equation is: (10 * weight (kg)) + (6.25 * height (cm)) + (5 * age) + OFFSET, where offset is 5 for males, -161 for females.
     static final int FEMALEOFFSET = -161;
 
@@ -44,11 +43,12 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
         edittextAge = (EditText) findViewById(R.id.edittextAge);
         edittextweight = (EditText) findViewById(R.id.edittextWeight);
+        edittextWeightInLb = (EditText) findViewById(R.id.edittextWeightInLb);
+        edittextWeightInST = (EditText) findViewById(R.id.edittextWeightInST);
+        edittextWeightInSTLb = (EditText) findViewById(R.id.edittextWeightInSTLb);
         edittextheight = (EditText) findViewById(R.id.edittextHeight);
         edittextfeet = (EditText) findViewById(R.id.edittextFeet);
         edittextInch = (EditText) findViewById(R.id.edittextInch);
-       // edittextWaist = (EditText) findViewById(R.id.edittextWaist);
-
         buttonAge = (ImageView) findViewById(R.id.buttonAge);
         buttonheight = (ImageView) findViewById(R.id.ButtonChooserheight);
         buttonweight = (ImageView) findViewById(R.id.ButtonChooserWeight);
@@ -61,52 +61,59 @@ public class MainActivity extends AppCompatActivity {
         textviewFATinterpret = (TextView) findViewById(R.id.TextViewFATInterpr);
         textViewIdealWeight = (TextView) findViewById(R.id.TextViewIdealWeight);
         TextViewIdealWeightfake = (TextView) findViewById(R.id.TextViewIdealWeightfake);
+
+
+        //alert Dialog Declaration For Gender
+        final LayoutInflater inflaterGender = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View alertLayoutGender = inflaterGender.inflate(R.layout.dialog, null);
+        final AlertDialog.Builder alertDialogBuilderGender = new AlertDialog.Builder(MainActivity.this);
+        alertDialogBuilderGender.setTitle("Gender :");
+        radioGroupSex = (RadioGroup)  alertLayoutGender.findViewById(R.id.radioSex);
+        alertDialogBuilderGender.setView(alertLayoutGender);
+        final AlertDialog alertDialogGender = alertDialogBuilderGender.create();
+
+        //
         buttonAge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                alertLayout = inflater.inflate(R.layout.dialog, null);
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                alertDialogBuilder.setTitle("Gender :");
-
-                radioGroupSex = (RadioGroup)  alertLayout.findViewById(R.id.radioSex);
                 radioGroupSex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                        radioButtonSex = (RadioButton)  alertLayout.findViewById(radioGroup.getCheckedRadioButtonId());
+
+                        radioButtonSex = (RadioButton)  alertLayoutGender.findViewById(radioGroup.getCheckedRadioButtonId());
                         sexValue = radioButtonSex.getText().toString().trim();
-                        Toast.makeText(getApplication(), sexValue, Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getApplication(), sexValue, Toast.LENGTH_SHORT).show();
                         if (sexValue.equals("Male")||sexValue.equals("")) {
                             buttonAge.setImageResource(R.drawable.gender_m);
-
                         } else {
                             buttonAge.setImageResource(R.drawable.gender_f);
                         }
                     }
 
                 });
-                alertDialogBuilder.setView(alertLayout);
-                final AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
 
+                alertDialogGender.show();
             }
         });
 
+        //alert Dialog Declaration for Height
+        final LayoutInflater inflaterHeight = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View alertLayoutHeight  = inflaterHeight.inflate(R.layout.dialogheight, null);
+        final AlertDialog.Builder alertDialogBuilderHeight = new AlertDialog.Builder(MainActivity.this);
+        alertDialogBuilderHeight.setTitle("Height In :");
+        radioGroupHeight = (RadioGroup) alertLayoutHeight.findViewById(R.id.radioHeight);
+        alertDialogBuilderHeight.setView(alertLayoutHeight);
+        final AlertDialog alertDialogHeight = alertDialogBuilderHeight.create();
         buttonheight.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-                final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                alertLayout = inflater.inflate(R.layout.dialogheight, null);
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                alertDialogBuilder.setTitle("Height In :");
-                radioGroupHeight = (RadioGroup) alertLayout.findViewById(R.id.radioSex);
+            public void onClick(View vgender) {
                 radioGroupHeight.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                        radioButtonHeight = (RadioButton) alertLayout.findViewById(radioGroup.getCheckedRadioButtonId());
+
+                        radioButtonHeight = (RadioButton) alertLayoutHeight.findViewById(radioGroup.getCheckedRadioButtonId());
                         heightValue = radioButtonHeight.getText().toString().trim();
-                        Toast.makeText(getApplication(), heightValue, Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getApplication(), heightValue, Toast.LENGTH_SHORT).show();
                         if (heightValue.equals("CM")||heightValue.equals("")) {
                             edittextheight.setVisibility(View.VISIBLE);
                             edittextfeet.setVisibility(View.GONE);
@@ -124,120 +131,295 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 });
-                alertDialogBuilder.setView(alertLayout);
-                final AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+
+                alertDialogHeight.show();
 
             }
         });
+        //alert Dialog Declaration for Weight
+        final LayoutInflater inflaterWeight = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View alertLayoutWeight  = inflaterWeight.inflate(R.layout.dialogweight, null);
+        final AlertDialog.Builder alertDialogBuilderWeight = new AlertDialog.Builder(MainActivity.this);
+        alertDialogBuilderWeight.setTitle("Weight In :");
+        radioGroupWeight = (RadioGroup) alertLayoutWeight.findViewById(R.id.radioWeight);
+        alertDialogBuilderWeight.setView(alertLayoutWeight);
+        final AlertDialog alertDialogWeight = alertDialogBuilderWeight.create();
+        buttonweight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                radioGroupWeight.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                        radioButtonWeight = (RadioButton) alertLayoutWeight.findViewById(radioGroup.getCheckedRadioButtonId());
+                        WeightValue = radioButtonWeight.getText().toString().trim();
+                       // Toast.makeText(getApplication(), WeightValue, Toast.LENGTH_SHORT).show();
+                        if (WeightValue .equals("KG")||WeightValue.equals("")) {
+                            edittextweight.setVisibility(View.VISIBLE);
+                            edittextWeightInLb.setVisibility(View.GONE);
+                            edittextWeightInST.setVisibility(View.GONE);
+                            edittextWeightInSTLb.setVisibility(View.GONE);
+                            buttonweight.setImageResource(R.drawable.btn_kg);
+
+
+                        } else if(WeightValue .equals("LB")){
+                            edittextweight.setVisibility(View.GONE);
+                            edittextWeightInLb.setVisibility(View.VISIBLE);
+                            edittextWeightInST.setVisibility(View.GONE);
+                            edittextWeightInSTLb.setVisibility(View.GONE);
+                            buttonweight.setImageResource(R.drawable.btn_lb);
+                        }else{
+                            edittextweight.setVisibility(View.GONE);
+                            edittextWeightInLb.setVisibility(View.GONE);
+                            edittextWeightInST.setVisibility(View.VISIBLE);
+                            edittextWeightInSTLb.setVisibility(View.VISIBLE);
+                            buttonweight.setImageResource(R.drawable.btn_st_lb);
+                        }
+
+                    }
+
+                });
+
+                alertDialogWeight.show();
+            }
+        });
 
         butttonCalculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                heightValue = radioButtonHeight.getText().toString().trim();
-               if(heightValue.equals("CM")) {
-                   strAge = edittextAge.getText().toString();
-                   strWeight = edittextweight.getText().toString();
-                   strHeight = edittextheight.getText().toString();
-                   //   strWaist = edittextheight.getText().toString();
-                   if (TextUtils.isEmpty(strAge)) {
-                       edittextAge.setError("Please enter your Age");
-                       edittextAge.requestFocus();
-                       return;
-                   }
-
-                   if (TextUtils.isEmpty(strWeight)) {
-                       edittextweight.setError("Please enter your weight");
-                       edittextweight.requestFocus();
-                       return;
-                   }
-
-                   if (TextUtils.isEmpty(strHeight)) {
-                       edittextheight.setError("Please enter your height");
-                       edittextheight.requestFocus();
-                       return;
-                   }
-
-                   //Get the user values from the widget reference
-                   float ageInYears = Integer.parseInt(strAge);
-                   float weight = Float.parseFloat(strWeight);
-                   float height = Float.parseFloat(strHeight) / 100;
-                   //  float waist = Float.parseFloat(strWaist);
-                   int height1 = Integer.parseInt(strHeight);
-                   //Calculate BMI  and BMR value
-                   float bmiValue = calculateBMI(weight, height);
-                   float bmrValue = calculateBMR(weight, height, ageInYears);
-                   float FATValue = calculateFAT(ageInYears, bmiValue);
-                   int IdealWeightValue = calculateIdealWeight(height1);
-                   Log.d("bmrvalue", String.valueOf(bmrValue));
-
-                   //Define the meaning of the bmi value
-                   String bmiInterpretation = interpretBMI(bmiValue);
-                   String FatInterpretation = interpretFAT(FATValue);
-
-
-                   //set value to the textview
-                   DecimalFormat f = new DecimalFormat("##.00");
-                   textviewbmi.setText(f.format(bmiValue));
-                   TextViewbmrfake.setText("-");
-                   textviewbmiinterpret.setText(String.valueOf(bmiInterpretation));
-                   textviewbmr.setText(f.format(bmrValue));
-                   textviewFAT.setText(String.valueOf(Math.round(FATValue))+"%");
-                   textviewFATinterpret.setText(String.valueOf(FatInterpretation));
-                   textViewIdealWeight.setText(String.valueOf(IdealWeightValue)+"kg");
-                   TextViewIdealWeightfake.setText("-");
-
-               }else{
-                   //ft+in
-                   strAge = edittextAge.getText().toString();
-                   strWeight = edittextweight.getText().toString();
-                   //   strWaist = edittextheight.getText().toString();
-                   //Get the user values from the widget reference
-                   float ageInYears = Integer.parseInt(strAge);
-                   float weight = Float.parseFloat(strWeight);
-                   //  float waist = Float.parseFloat(strWaist);
-                   if (TextUtils.isEmpty(strAge)) {
-                       edittextAge.setError("Please enter your Age");
-                       edittextAge.requestFocus();
-                       return;
-                   }
-
-                   if (TextUtils.isEmpty(strWeight)) {
-                       edittextweight.setError("Please enter your weight");
-                       edittextweight.requestFocus();
-                       return;
-                   }
-
-                   strHeigthfeet = edittextfeet.getText().toString();
-                   strHeightInch = edittextInch.getText().toString();
-                   float heightfeet = Float.parseFloat(strHeigthfeet);
-                   float heightinches = Float.parseFloat(strHeightInch);
-                   float heightfeetvalue = (float) ((heightfeet * 30.48) + (heightinches * 2.54));
-                   //Calculate BMI  and BMR value
-                   float bmiValue = calculateBMI(weight, (heightfeetvalue/100));
-                   float bmrValue = calculateBMR(weight, (heightfeetvalue/100), ageInYears);
-                   float FATValue = calculateFAT(ageInYears, bmiValue);
-                   int IdealWeightValue = calculateIdealWeight(Math.round(heightfeetvalue));
-                   Log.d("bmrvalue", String.valueOf(bmrValue));
-
-                   //Define the meaning of the bmi value
-                   String bmiInterpretation = interpretBMI(bmiValue);
-                   String FatInterpretation = interpretFAT(FATValue);
-
-
-                   //set value to the textview
-                   DecimalFormat f = new DecimalFormat("##.00");
-                   textviewbmi.setText(f.format(bmiValue));
-                   TextViewbmrfake.setText("-");
-                   textviewbmiinterpret.setText(String.valueOf(bmiInterpretation));
-                   textviewbmr.setText(f.format(bmrValue));
-                   textviewFAT.setText(String.valueOf(Math.round(FATValue))+"%");
-                   textviewFATinterpret.setText(String.valueOf(FatInterpretation));
-                   textViewIdealWeight.setText(String.valueOf(IdealWeightValue)+"kg");
-                   TextViewIdealWeightfake.setText("-");
+                if (radioGroupSex.getCheckedRadioButtonId() == -1 ){
+                    Toast.makeText(MainActivity.this, "Please Select Gender", Toast.LENGTH_LONG).show();
+                } else if(radioGroupHeight.getCheckedRadioButtonId() == -1 ) {
+                    Toast.makeText(MainActivity.this, "Please Select Height", Toast.LENGTH_LONG).show();
+                }else if(radioGroupWeight.getCheckedRadioButtonId() == -1 ){
+                    Toast.makeText(MainActivity.this, "Please Select Weight", Toast.LENGTH_LONG).show();
                 }
+                else {
+                    heightValue = radioButtonHeight.getText().toString().trim();
+                    WeightValue = radioButtonWeight.getText().toString().trim();
+                    if (heightValue.equals("CM")) {
+                        if (WeightValue.equals("KG") || WeightValue.equals("")) {
+                            strAge = edittextAge.getText().toString();
+                            strWeight = edittextweight.getText().toString();
+                            strHeight = edittextheight.getText().toString();
+                            float ageInYears = Integer.parseInt(strAge);
+                            float weight = Float.parseFloat(strWeight);
+                            float height = Float.parseFloat(strHeight) / 100;
+                            int height1 = Integer.parseInt(strHeight);
 
+                            //Calculate BMI  and BMR value and FAT and Ideal Weight
+                            float bmiValue = calculateBMI(weight, height);
+                            float bmrValue = calculateBMR(weight, height, ageInYears);
+                            float FATValue = calculateFAT(ageInYears, bmiValue);
+                            int IdealWeightValue = calculateIdealWeight(height1);
+                            Log.d("bmrvalue", String.valueOf(bmrValue));
+
+                            //Define the meaning of the bmi value
+                            String bmiInterpretation = interpretBMI(bmiValue);
+                            String FatInterpretation = interpretFAT(FATValue);
+
+
+                            //set value to the textview
+                            DecimalFormat f = new DecimalFormat("##.00");
+                            textviewbmi.setText(f.format(bmiValue));
+                            TextViewbmrfake.setText("-");
+                            textviewbmiinterpret.setText(String.valueOf(bmiInterpretation));
+                            textviewbmr.setText(f.format(bmrValue));
+                            textviewFAT.setText(String.valueOf(Math.round(FATValue)) + "%");
+                            textviewFATinterpret.setText(String.valueOf(FatInterpretation));
+                            textViewIdealWeight.setText(String.valueOf(IdealWeightValue) + "kg");
+                            TextViewIdealWeightfake.setText("-");
+                        }
+                        else if (WeightValue.equals("LB")) {
+                            strAge = edittextAge.getText().toString();
+                            strWeight = edittextWeightInLb.getText().toString();
+                            float pounds = Float.parseFloat(strWeight);
+                            float kilograms = (float) (pounds * 0.454);
+                            strHeight = edittextheight.getText().toString();
+                            //Get the user values from the widget reference
+                            float ageInYears = Integer.parseInt(strAge);
+                            float weight = kilograms;
+                            float height = Float.parseFloat(strHeight) / 100;
+                            int height1 = Integer.parseInt(strHeight);
+                            //Calculate BMI  and BMR value
+                            float bmiValue = calculateBMI(weight, height);
+                            float bmrValue = calculateBMR(weight, height, ageInYears);
+                            float FATValue = calculateFAT(ageInYears, bmiValue);
+                            int IdealWeightValue = calculateIdealWeight(height1);
+                            Log.d("bmrvalue", String.valueOf(bmrValue));
+
+                            //Define the meaning of the bmi value
+                            String bmiInterpretation = interpretBMI(bmiValue);
+                            String FatInterpretation = interpretFAT(FATValue);
+
+
+                            //set value to the textview
+                            DecimalFormat f = new DecimalFormat("##.00");
+                            textviewbmi.setText(f.format(bmiValue));
+                            TextViewbmrfake.setText("-");
+                            textviewbmiinterpret.setText(String.valueOf(bmiInterpretation));
+                            textviewbmr.setText(f.format(bmrValue));
+                            textviewFAT.setText(String.valueOf(Math.round(FATValue)) + "%");
+                            textviewFATinterpret.setText(String.valueOf(FatInterpretation));
+                            textViewIdealWeight.setText(String.valueOf(IdealWeightValue) + "kg");
+                            TextViewIdealWeightfake.setText("-");
+                        }
+                        else {
+                            strAge = edittextAge.getText().toString();
+                            String strWeightST = edittextWeightInST.getText().toString();
+                            String strWeightSTLb = edittextWeightInSTLb.getText().toString();
+                            float stones = Float.parseFloat(strWeightST);
+                            float pounds = Float.parseFloat(strWeightSTLb);
+                            float kilograms = (float) ((stones * 6.350) + (pounds * 0.454));
+                            strHeight = edittextheight.getText().toString();
+
+                            //Get the user values from the widget reference
+                            float ageInYears = Integer.parseInt(strAge);
+                            float weight = kilograms;
+                            float height = Float.parseFloat(strHeight) / 100;
+                            int height1 = Integer.parseInt(strHeight);
+                            //Calculate BMI  and BMR value
+                            float bmiValue = calculateBMI(weight, height);
+                            float bmrValue = calculateBMR(weight, height, ageInYears);
+                            float FATValue = calculateFAT(ageInYears, bmiValue);
+                            int IdealWeightValue = calculateIdealWeight(height1);
+                            Log.d("bmrvalue", String.valueOf(bmrValue));
+
+                            //Define the meaning of the bmi value
+                            String bmiInterpretation = interpretBMI(bmiValue);
+                            String FatInterpretation = interpretFAT(FATValue);
+
+
+                            //set value to the textview
+                            DecimalFormat f = new DecimalFormat("##.00");
+                            textviewbmi.setText(f.format(bmiValue));
+                            TextViewbmrfake.setText("-");
+                            textviewbmiinterpret.setText(String.valueOf(bmiInterpretation));
+                            textviewbmr.setText(f.format(bmrValue));
+                            textviewFAT.setText(String.valueOf(Math.round(FATValue)) + "%");
+                            textviewFATinterpret.setText(String.valueOf(FatInterpretation));
+                            textViewIdealWeight.setText(String.valueOf(IdealWeightValue) + "kg");
+                            TextViewIdealWeightfake.setText("-");
+                        }
+
+                    }
+                    else {
+                        if (WeightValue.equals("KG") || WeightValue.equals("")) {
+                            //ft+in
+                            strAge = edittextAge.getText().toString();
+                            strWeight = edittextweight.getText().toString();
+                            //Get the user values from the widget reference
+                            float ageInYears = Integer.parseInt(strAge);
+                            float weight = Float.parseFloat(strWeight);
+                            //  float waist = Float.parseFloat(strWaist);
+                            strHeigthfeet = edittextfeet.getText().toString();
+                            strHeightInch = edittextInch.getText().toString();
+                            float heightfeet = Float.parseFloat(strHeigthfeet);
+                            float heightinches = Float.parseFloat(strHeightInch);
+                            float heightfeetvalue = (float) ((heightfeet * 30.48) + (heightinches * 2.54));
+                            //Calculate BMI  and BMR value
+                            float bmiValue = calculateBMI(weight, (heightfeetvalue / 100));
+                            float bmrValue = calculateBMR(weight, (heightfeetvalue / 100), ageInYears);
+                            float FATValue = calculateFAT(ageInYears, bmiValue);
+                            int IdealWeightValue = calculateIdealWeight(Math.round(heightfeetvalue));
+                            Log.d("bmrvalue", String.valueOf(bmrValue));
+
+                            //Define the meaning of the bmi value
+                            String bmiInterpretation = interpretBMI(bmiValue);
+                            String FatInterpretation = interpretFAT(FATValue);
+
+
+                            //set value to the textview
+                            DecimalFormat f = new DecimalFormat("##.00");
+                            textviewbmi.setText(f.format(bmiValue));
+                            TextViewbmrfake.setText("-");
+                            textviewbmiinterpret.setText(String.valueOf(bmiInterpretation));
+                            textviewbmr.setText(f.format(bmrValue));
+                            textviewFAT.setText(String.valueOf(Math.round(FATValue)) + "%");
+                            textviewFATinterpret.setText(String.valueOf(FatInterpretation));
+                            textViewIdealWeight.setText(String.valueOf(IdealWeightValue) + "kg");
+                            TextViewIdealWeightfake.setText("-");
+                        }
+                        else if (WeightValue.equals("LB")) {
+                            //ft+in
+                            strAge = edittextAge.getText().toString();
+                            strWeight = edittextWeightInLb.getText().toString();
+                            float pounds = Float.parseFloat(strWeight);
+                            float kilograms = (float) (pounds * 0.454);
+                            //Get the user values from the widget reference
+                            float ageInYears = Integer.parseInt(strAge);
+                            float weight = kilograms;
+                            strHeigthfeet = edittextfeet.getText().toString();
+                            strHeightInch = edittextInch.getText().toString();
+                            float heightfeet = Float.parseFloat(strHeigthfeet);
+                            float heightinches = Float.parseFloat(strHeightInch);
+                            float heightfeetvalue = (float) ((heightfeet * 30.48) + (heightinches * 2.54));
+                            //Calculate BMI  and BMR value
+                            float bmiValue = calculateBMI(weight, (heightfeetvalue / 100));
+                            float bmrValue = calculateBMR(weight, (heightfeetvalue / 100), ageInYears);
+                            float FATValue = calculateFAT(ageInYears, bmiValue);
+                            int IdealWeightValue = calculateIdealWeight(Math.round(heightfeetvalue));
+                            Log.d("bmrvalue", String.valueOf(bmrValue));
+
+                            //Define the meaning of the bmi value
+                            String bmiInterpretation = interpretBMI(bmiValue);
+                            String FatInterpretation = interpretFAT(FATValue);
+
+
+                            //set value to the textview
+                            DecimalFormat f = new DecimalFormat("##.00");
+                            textviewbmi.setText(f.format(bmiValue));
+                            TextViewbmrfake.setText("-");
+                            textviewbmiinterpret.setText(String.valueOf(bmiInterpretation));
+                            textviewbmr.setText(f.format(bmrValue));
+                            textviewFAT.setText(String.valueOf(Math.round(FATValue)) + "%");
+                            textviewFATinterpret.setText(String.valueOf(FatInterpretation));
+                            textViewIdealWeight.setText(String.valueOf(IdealWeightValue) + "kg");
+                            TextViewIdealWeightfake.setText("-");
+                        }
+                        else {
+                            strAge = edittextAge.getText().toString();
+                            String strWeightST = edittextWeightInST.getText().toString();
+                            String strWeightSTLb = edittextWeightInSTLb.getText().toString();
+                            float stones = Float.parseFloat(strWeightST);
+                            float pounds = Float.parseFloat(strWeightSTLb);
+                            float kilograms = (float) ((stones * 6.350) + (pounds * 0.454));
+                            //Get the user values from the widget reference
+                            float ageInYears = Integer.parseInt(strAge);
+                            float weight = kilograms;
+                            //  float waist = Float.parseFloat(strWaist);
+
+                            strHeigthfeet = edittextfeet.getText().toString();
+                            strHeightInch = edittextInch.getText().toString();
+                            float heightfeet = Float.parseFloat(strHeigthfeet);
+                            float heightinches = Float.parseFloat(strHeightInch);
+                            float heightfeetvalue = (float) ((heightfeet * 30.48) + (heightinches * 2.54));
+                            //Calculate BMI  and BMR value
+                            float bmiValue = calculateBMI(weight, (heightfeetvalue / 100));
+                            float bmrValue = calculateBMR(weight, (heightfeetvalue / 100), ageInYears);
+                            float FATValue = calculateFAT(ageInYears, bmiValue);
+                            int IdealWeightValue = calculateIdealWeight(Math.round(heightfeetvalue));
+                            Log.d("bmrvalue", String.valueOf(bmrValue));
+
+                            //Define the meaning of the bmi value
+                            String bmiInterpretation = interpretBMI(bmiValue);
+                            String FatInterpretation = interpretFAT(FATValue);
+
+
+                            //set value to the textview
+                            DecimalFormat f = new DecimalFormat("##.00");
+                            textviewbmi.setText(f.format(bmiValue));
+                            TextViewbmrfake.setText("-");
+                            textviewbmiinterpret.setText(String.valueOf(bmiInterpretation));
+                            textviewbmr.setText(f.format(bmrValue));
+                            textviewFAT.setText(String.valueOf(Math.round(FATValue)) + "%");
+                            textviewFATinterpret.setText(String.valueOf(FatInterpretation));
+                            textViewIdealWeight.setText(String.valueOf(IdealWeightValue) + "kg");
+                            TextViewIdealWeightfake.setText("-");
+                        }
+                    }
+
+                }
             }
         });
     }
@@ -253,25 +435,31 @@ public class MainActivity extends AppCompatActivity {
         if (radioButtonSex.getText().toString().trim().equals("Male")) {
             idealweight = (height - 100 - ((height - 150) / 4));
 
-        } else {
+        } else if(radioButtonSex.getText().toString().trim().equals("Female")){
             idealweight = (height - 100 - ((height - 150) / 2));
+        }
+        else{
+            idealweight = (height - 100 - ((height - 150) / 3));
         }
         return (int) (idealweight+1);
     }
 
-
+    //Calculate Ideal BMR
     private float calculateBMR(float weight, float height, float ageInYears) {
 
         int offset = radioButtonSex.getText().toString().trim().equals("Male") ? MALEOFFSET : FEMALEOFFSET;
         return (int) (Math.round((10 * weight) + (6.25 * height) - (5 * ageInYears) + offset));
     }
-
+    //Calculate Ideal FAT
     private float calculateFAT(float ageInYears, float bmiValue) {
         float FAT_percentage;
         if(radioButtonSex.getText().toString().trim().equals("Male")) {
             FAT_percentage= (float) ((1.20 * bmiValue) + (0.23 * ageInYears) - (10.8 * 1) - 5.4);
-        }else{
+        }else if(radioButtonSex.getText().toString().trim().equals("Female")){
            FAT_percentage = (float) ((1.20 * bmiValue) + (0.23 * ageInYears) - (10.8 * 0) - 5.4);
+        }else
+        {
+            FAT_percentage = (float) ((1.20 * bmiValue) + (0.23 * ageInYears) - (10.8 * 0) - 5.4);
         }
         return (int) (FAT_percentage);
     }
@@ -310,7 +498,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    // Interpret what FAT means
     private String interpretFAT(float FATValue) {
 
         if (sexValue == "Female") {
